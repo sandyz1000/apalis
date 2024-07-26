@@ -16,7 +16,7 @@ apalis-core = { path = "../../packages/apalis-core", version = "0.5.3", default-
     "sleep",
     "json",
 ] }
-redis = { version = "0.25.3", default-features = false, features = [
+redis = { version = "0.26.0", default-features = false, features = [
     "script",
     "aio",
     "connection-manager",
@@ -38,7 +38,8 @@ async-trait = "0.1.80"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 email-service = { path = "../../examples/email-service" }
 apalis = { path = "../../", default-features = false, features = [
-    "tokio-comp", "redis"
+    "tokio-comp",
+    "redis",
 ] }
 
 [features]

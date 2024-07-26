@@ -374,7 +374,7 @@ impl<T: DeserializeOwned + Send + Unpin + Send + Sync + 'static> RedisStorage<T>
                     .key(&signal_list)
                     .arg(buffer_size) // No of jobs to fetch
                     .arg(&inflight_set)
-                    .invoke_async::<_, Vec<Value>>(&mut conn).await;
+                    .invoke_async::<Vec<Value>>(&mut conn).await;
                 match result {
                     Ok(jobs) => {
                         for job in jobs {
@@ -394,8 +394,8 @@ impl<T: DeserializeOwned + Send + Unpin + Send + Sync + 'static> RedisStorage<T>
 
 fn deserialize_job(job: &Value) -> Option<&Vec<u8>> {
     let job = match job {
-        job @ Value::Data(_) => Some(job),
-        Value::Bulk(val) => val.first(),
+        job @ Value::BulkString(_) => Some(job),
+        Value::Array(val) => val.first(),
         _ => {
             error!(
                 "Decoding Message Failed: {:?}",
@@ -406,7 +406,7 @@ fn deserialize_job(job: &Value) -> Option<&Vec<u8>> {
     };
 
     match job {
-        Some(Value::Data(v)) => Some(v),
+        Some(Value::BulkString(v)) => Some(v),
         None => None,
         _ => {
             error!("Decoding Message Failed: {:?}", "Expected Data(&Vec<u8>)");

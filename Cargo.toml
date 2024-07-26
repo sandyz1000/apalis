@@ -81,12 +81,17 @@ path = "./packages/apalis-redis"
 default-features = false
 
 [dependencies.apalis-sql]
-
 version = "0.5.3"
 features = ["migrate"]
 optional = true
 default-features = false
 path = "./packages/apalis-sql"
+
+# [dependencies.apalis-dynamodb]
+# version = "*"
+# optional = true
+# default-features = false
+# path = "./packages/apalis-dynamodb"
 
 [dependencies.apalis-core]
 version = "0.5.3"

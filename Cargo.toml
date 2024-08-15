@@ -140,6 +140,7 @@ members = [
   "packages/apalis-redis",
   "packages/apalis-sql",
   "packages/apalis-cron",
+  # "packages/apalis-dynamodb",
   # Examples
   "examples/email-service",
   "examples/redis",

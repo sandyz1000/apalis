@@ -787,7 +787,7 @@ mod tests {
             .expect("failed to Flushdb");
     }
 
-    struct DummyService {}
+    struct DummyService;
 
     fn example_email() -> Email {
         Email {

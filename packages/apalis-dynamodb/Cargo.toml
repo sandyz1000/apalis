@@ -25,6 +25,6 @@ serde_dynamo = { version = "4.2", default-features = false, features = [
 chrono = "0.4.38"
 thiserror = "1.0.62"
 tracing = "0.1"
-uuid = "1.9.1"
+uuid = {version = "1.9.1", features = ["v4", "fast-rng"] }
 
 

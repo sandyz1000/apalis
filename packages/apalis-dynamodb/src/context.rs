@@ -18,6 +18,7 @@ pub struct Workers {
 impl Default for Workers {
     fn default() -> Self {
         let last_seen = Utc::now().timestamp();
+
         let worker_id = format!("worker-id-{0}", Uuid::new_v4().to_string());
         Workers {
             id: worker_id,
@@ -50,37 +51,37 @@ impl Workers {
 /// The context for a job is represented here
 /// Used to provide a context when a job is defined through the [Job] trait
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct DynamoContext {
+pub struct DynamoTask {
     pub id: TaskId,
     pub status: TaskState,
-    pub run_at: DateTime<Utc>,
+    pub run_at: i64, // This is the timestamp
     pub attempts: i32, // Attempt
     pub max_attempts: i32,
     pub last_error: Option<String>,
     pub lock_at: Option<i64>,
     pub lock_by: Option<WorkerId>,
     pub done_at: Option<i64>,
-    pub workers: Workers,
+    pub worker_id: WorkerId,
     pub job: String,
     pub job_type: String,
 }
 
-impl DynamoContext {
+impl DynamoTask {
     /// Build a new context with defaults given an ID.
-    pub fn new(id: TaskId) -> Self {
-        DynamoContext {
+    pub fn new(id: TaskId, worker_id: WorkerId) -> Self {
+        DynamoTask {
             id,
             status: TaskState::Pending,
-            run_at: Utc::now(),
+            run_at: Utc::now().timestamp(),
             lock_at: None,
             done_at: None,
             attempts: Default::default(),
             max_attempts: 25,
             last_error: None,
             lock_by: None,
-            workers: Workers::default(),
-            job: "".to_string(),
-            job_type: "".to_string(),
+            worker_id,
+            job: "apalis".to_string(),
+            job_type: "basic".to_string(),
         }
     }
 
@@ -121,12 +122,12 @@ impl DynamoContext {
     }
 
     /// Get the time a job is supposed to start
-    pub fn run_at(&self) -> &DateTime<Utc> {
+    pub fn run_at(&self) -> &i64 {
         &self.run_at
     }
 
     /// Set the time a job should run
-    pub fn set_run_at(&mut self, run_at: DateTime<Utc>) {
+    pub fn set_run_at(&mut self, run_at: i64) {
         self.run_at = run_at;
     }
 
@@ -228,4 +229,3 @@ impl fmt::Display for TaskState {
         }
     }
 }
-

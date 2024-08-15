@@ -87,11 +87,6 @@ optional = true
 default-features = false
 path = "./packages/apalis-sql"
 
-# [dependencies.apalis-dynamodb]
-# version = "*"
-# optional = true
-# default-features = false
-# path = "./packages/apalis-dynamodb"
 
 [dependencies.apalis-core]
 version = "0.5.3"
@@ -140,7 +135,6 @@ members = [
   "packages/apalis-redis",
   "packages/apalis-sql",
   "packages/apalis-cron",
-  # "packages/apalis-dynamodb",
   # Examples
   "examples/email-service",
   "examples/redis",
